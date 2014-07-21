@@ -44,18 +44,6 @@ public class MyAlarmService extends Service implements LocationListener {
     @Override
     public void onCreate(){
         super.onCreate();
-    }
-
-//    @Override
-//    public void onStart(){
-//
-//    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("Tag","onStart entered");
-        super.onStartCommand(intent, flags, startId);
-
 
         Log.d("Tag","addLocation entered");
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
@@ -79,7 +67,19 @@ public class MyAlarmService extends Service implements LocationListener {
         }else{
             Log.d("Tag","location is null");
         }
-       // addLocation();
+        // addLocation();
+    }
+
+//    @Override
+//    public void onStart(){
+//
+//    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d("Tag","onStart entered");
+        super.onStartCommand(intent, flags, startId);
+
         sendNotification();
 
         return Service.START_NOT_STICKY;
