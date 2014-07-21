@@ -32,8 +32,8 @@ public class MyReceiver extends WakefulBroadcastReceiver {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         //set the alarms trigger to hour and minute
-        calendar.set(Calendar.HOUR_OF_DAY,12);
-        calendar.set(Calendar.MINUTE,59);
+        calendar.set(Calendar.HOUR_OF_DAY,14);
+        calendar.set(Calendar.MINUTE,11);
 
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_FIFTEEN_MINUTES, alarmIntent);
     }

@@ -56,23 +56,32 @@ public class MyAlarmService extends Service implements LocationListener {
         Log.d("Tag","onStart entered");
         super.onStartCommand(intent, flags, startId);
 
-//        //NotificationCompat.
-//        Builder builder = new Builder(this);
-//        builder.setSmallIcon(R.drawable.ic_launcher);
-//        //set the intent that will fire when the user taps the notification
-//        //TODO
-//        builder.setAutoCancel(true);
-//        //build the notifications appearance
-//        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher));
-//        builder.setContentTitle("Notification Test");
-//        builder.setContentText("notification content text");
-//        builder.setSubText("notification subText");
-//
-//        //send the notification
-//        NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-//        notificationManager.notify(NOTIFICATION_ID,builder.build());
+
+        Log.d("Tag","addLocation entered");
+        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        provider = locationManager.getBestProvider(criteria,false);
+        Location location = locationManager.getLastKnownLocation(provider);
+
+        if(location !=null){
+            db = new MySQLiteHelper(this);
+            location = locationManager.getLastKnownLocation(provider);
+            double lat;
+            lat = location.getLatitude();
+            double lng;
+            lng = location.getLongitude();
+
+            double newLat = Math.round(lat*1000.0)/1000.0;
+            double newLng = Math.round(lng*1000.0)/1000.0;
+
+            db.addCoordinates(new Coordinates(newLat, newLng));
+            Log.i(TAG,newLat + " " + newLng);
+        }else{
+            Log.d("Tag","location is null");
+        }
+       // addLocation();
         sendNotification();
-        addLocation();
+
         return Service.START_NOT_STICKY;
     }
 
@@ -109,25 +118,7 @@ public class MyAlarmService extends Service implements LocationListener {
 
 
     private void addLocation() {
-        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        provider = locationManager.getBestProvider(criteria,false);
-        Location location = locationManager.getLastKnownLocation(provider);
 
-        if(location !=null){
-            db = new MySQLiteHelper(this);
-            location = locationManager.getLastKnownLocation(provider);
-            double lat;
-            lat = location.getLatitude();
-            double lng;
-            lng = location.getLongitude();
-
-            double newLat = Math.round(lat*1000.0)/1000.0;
-            double newLng = Math.round(lng*1000.0)/1000.0;
-
-            db.addCoordinates(new Coordinates(newLat, newLng));
-            Log.i(TAG,newLat + " " + newLng);
-        }
     }
 
     @Override
