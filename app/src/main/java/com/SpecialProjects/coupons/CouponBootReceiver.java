@@ -14,6 +14,7 @@ public class CouponBootReceiver extends BroadcastReceiver {
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
         {
             alarm.setAlarm(context);
+
         }
     }
 }

@@ -5,11 +5,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -20,7 +15,7 @@ import static android.support.v4.app.NotificationCompat.Builder;
 /**
  * Created by David Smith on 7/19/2014.
  */
-public class MyAlarmService extends Service implements LocationListener {
+public class MyAlarmService extends Service {
 
     public static final String TAG = "Schedule demo";
     private static final int NOTIFICATION_ID;
@@ -31,9 +26,6 @@ public class MyAlarmService extends Service implements LocationListener {
 
     private NotificationManager notificationManager;
     Builder builder;
-    private LocationManager locationManager;
-    private String provider;
-    MySQLiteHelper db;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -44,30 +36,6 @@ public class MyAlarmService extends Service implements LocationListener {
     @Override
     public void onCreate(){
         super.onCreate();
-
-        Log.d("Tag","addLocation entered");
-        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        provider = locationManager.getBestProvider(criteria,false);
-        Location location = locationManager.getLastKnownLocation(provider);
-
-        if(location !=null){
-            db = new MySQLiteHelper(this);
-            location = locationManager.getLastKnownLocation(provider);
-            double lat;
-            lat = location.getLatitude();
-            double lng;
-            lng = location.getLongitude();
-
-            double newLat = Math.round(lat*1000.0)/1000.0;
-            double newLng = Math.round(lng*1000.0)/1000.0;
-
-            db.addCoordinates(new Coordinates(newLat, newLng));
-            Log.i(TAG,newLat + " " + newLng);
-        }else{
-            Log.d("Tag","location is null");
-        }
-        // addLocation();
     }
 
 //    @Override
@@ -80,8 +48,22 @@ public class MyAlarmService extends Service implements LocationListener {
         Log.d("Tag","onStart entered");
         super.onStartCommand(intent, flags, startId);
 
+//        //NotificationCompat.
+//        Builder builder = new Builder(this);
+//        builder.setSmallIcon(R.drawable.ic_launcher);
+//        //set the intent that will fire when the user taps the notification
+//        //TODO
+//        builder.setAutoCancel(true);
+//        //build the notifications appearance
+//        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher));
+//        builder.setContentTitle("Notification Test");
+//        builder.setContentText("notification content text");
+//        builder.setSubText("notification subText");
+//
+//        //send the notification
+//        NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+//        notificationManager.notify(NOTIFICATION_ID,builder.build());
         sendNotification();
-
         return Service.START_NOT_STICKY;
     }
 
@@ -116,37 +98,8 @@ public class MyAlarmService extends Service implements LocationListener {
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
-
-    private void addLocation() {
-
-    }
-
     @Override
     public void onDestroy(){
         super.onDestroy();
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-
-        if(location !=null){
-            //TODO
-            addLocation();
-        }
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-        //TODO
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-        //TODO
     }
 }

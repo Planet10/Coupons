@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 public class Main extends Activity {
     MyReceiver myReceiver = new MyReceiver();
+    LocationReceiver locationReceiver = new LocationReceiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +31,8 @@ public class Main extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            myReceiver.setAlarm(this);
+           // myReceiver.setAlarm(this);
+            locationReceiver.setAlarm(this);
             return true;
         }
         return super.onOptionsItemSelected(item);
