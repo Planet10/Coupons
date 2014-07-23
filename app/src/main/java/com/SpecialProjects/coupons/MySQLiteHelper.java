@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -75,6 +76,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put(COLUMN_DATE, dateFormat.format(date));
 
         db.insert(TABLE_NAME,null,values);
+        Log.i("values"," values: " + values);
         db.close();
     }
 
@@ -101,6 +103,19 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         }
         //return the coord list
         return coordList;
+    }
+    public void openAndQueryDb(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT latitude, longitude FROM " + TABLE_NAME ;
+
+        Cursor cursor = db.rawQuery(selectQuery,null);
+        if(cursor.getCount()>0){
+            cursor.moveToFirst();
+            String lat = cursor.getString(cursor.getColumnIndex("latitude"));
+            Log.i("dbLatitude", " latitude from db " + lat);
+        }
+        cursor.close();
+        db.close();
     }
 }
 

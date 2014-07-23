@@ -18,6 +18,8 @@ public class CouponLocations extends Service implements LocationListener {
     Location location;
     double latitude;
     double longitude;
+    double newLatitude;
+    double newLongitude;
     private String provider;
     private Criteria criteria;
    // private final Context mContext;
@@ -26,6 +28,7 @@ public class CouponLocations extends Service implements LocationListener {
     boolean canGetLocation = false;
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
     private static final long MIN_TIME_BETWEEN_UPDATES = 1000 * 60 * 1; // 1 minute
+    MySQLiteHelper db;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -49,6 +52,7 @@ public class CouponLocations extends Service implements LocationListener {
 //    }
 
     private Location getLocation() {
+        db = new MySQLiteHelper(this);
         try{
             locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
             isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -74,6 +78,11 @@ public class CouponLocations extends Service implements LocationListener {
                             Log.i("latitude", " value = " + latitude);
                             //TODO round off latitude and longitude
                             longitude = location.getLongitude();
+                            newLatitude = Math.round(latitude*1000.0)/1000.0;
+                            newLongitude = Math.round(longitude*1000.0)/1000.0;
+                            Log.i("newLatitude", " value = " + newLatitude);
+                            db.addCoordinates(new Coordinates(newLatitude,newLongitude));
+                            db.openAndQueryDb();
                         }
                     }
                 }
@@ -91,6 +100,8 @@ public class CouponLocations extends Service implements LocationListener {
                             if (location !=null){
                                 latitude = location.getLatitude();
                                 longitude = location.getLongitude();
+                                newLatitude = Math.round(latitude*1000.0)/1000.0;
+                                newLongitude = Math.round(longitude*1000.0)/1000.0;
                             }
                         }
                     }
