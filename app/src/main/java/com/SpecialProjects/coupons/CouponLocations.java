@@ -80,7 +80,7 @@ public class CouponLocations extends Service implements LocationListener {
                             longitude = location.getLongitude();
                             newLatitude = Math.round(latitude*1000.0)/1000.0;
                             newLongitude = Math.round(longitude*1000.0)/1000.0;
-                            Log.i("newLatitude", " value = " + newLatitude);
+                            Log.i("newCoordinates", " Latitude: " + newLatitude + " " + "Longitude: " + newLongitude);
                             db.addCoordinates(new Coordinates(newLatitude,newLongitude));
                             db.openAndQueryDb();
                         }

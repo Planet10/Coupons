@@ -110,9 +110,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.rawQuery(selectQuery,null);
         if(cursor.getCount()>0){
-            cursor.moveToFirst();
+           // cursor.moveToFirst();
+            cursor.moveToLast();
             String lat = cursor.getString(cursor.getColumnIndex("latitude"));
-            Log.i("dbLatitude", " latitude from db " + lat);
+            String lng = cursor.getString(cursor.getColumnIndex("longitude"));
+            Log.i("dbLatitude", " latitude: " + lat + " " + "longitude: " + lng);
+            Log.i("RecordCount", "Record Count: " + cursor.getCount());
         }
         cursor.close();
         db.close();
