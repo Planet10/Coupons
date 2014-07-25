@@ -120,6 +120,25 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
     }
+    public void listAllRecords(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "Select latitude, longitude From " + TABLE_NAME;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        //loop thru all records
+        if(cursor !=null){
+            cursor.moveToFirst();
+            if (cursor.moveToFirst()){
+                do{
+                   String lat = cursor.getString(cursor.getColumnIndex("latitude"));
+                    String lng = cursor.getString(cursor.getColumnIndex("longitude"));
+                    Log.i("Locations", " latitude: " + lat + " " + "longitude: " + lng);
+                }while (cursor.moveToNext());
+            }
+        }
+        cursor.close();
+        db.close();
+    }
 }
 
 
