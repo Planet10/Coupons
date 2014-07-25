@@ -29,6 +29,7 @@ public class CouponLocations extends Service implements LocationListener {
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
     private static final long MIN_TIME_BETWEEN_UPDATES = 1000 * 60 * 1; // 1 minute
     MySQLiteHelper db;
+    RestApi apiHelper;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -53,6 +54,7 @@ public class CouponLocations extends Service implements LocationListener {
 
     private Location getLocation() {
         db = new MySQLiteHelper(this);
+        apiHelper = new RestApi();
         try{
             locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
             isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -83,6 +85,7 @@ public class CouponLocations extends Service implements LocationListener {
                             db.addCoordinates(new Coordinates(newLatitude,newLongitude));
                             db.openAndQueryDb();
                             db.listAllRecords();
+                            apiHelper.callApi();
                         }
                     }
                 }
