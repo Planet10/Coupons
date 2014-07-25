@@ -14,7 +14,7 @@ public class RestApi {
         double lat = 30.48;
         double lng = -97.77;
         int radius = 5000;
-        String urlString = apiUrl + lat + "," + lng + "&" + "radius=" + radius + "&" + "types=cafe" + "&key=" + "AIzaSyBjE1Q01JTmfuaRWBw1NOfmpUJ5iN8B1xg";
+        String urlString = apiUrl + lat + "," + lng + "&" + "radius=" + radius + "&" + "types=cafe" + "&key=" + "";
         Log.i("UrlString", "url :" + urlString);
         new CallLocationApi().execute(urlString);
     }

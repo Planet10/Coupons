@@ -32,7 +32,7 @@ public class LocationReceiver extends WakefulBroadcastReceiver {
         calendar.setTimeInMillis(System.currentTimeMillis());
         //set the alarms trigger to hour and minute
         calendar.set(Calendar.HOUR_OF_DAY,13);
-        calendar.set(Calendar.MINUTE,8);
+        calendar.set(Calendar.MINUTE,25);
 
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_FIFTEEN_MINUTES, alarmIntent);
     }

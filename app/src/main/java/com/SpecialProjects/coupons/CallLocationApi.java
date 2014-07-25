@@ -1,6 +1,7 @@
 package com.SpecialProjects.coupons;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -20,11 +21,15 @@ public class CallLocationApi extends AsyncTask<String,String,String> {
         String resultToDisplay = "";
         InputStream inputStream = null;
 
+
         //Http Get
         try{
             URL url = new URL(urlString);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             inputStream = new BufferedInputStream(httpURLConnection.getInputStream());
+            int responseCode =  httpURLConnection.getResponseCode();
+            Log.i("ResponseCode", "Response Code: " + responseCode);
+
 
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -33,4 +38,8 @@ public class CallLocationApi extends AsyncTask<String,String,String> {
         return resultToDisplay;
     }
 
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+    }
 }

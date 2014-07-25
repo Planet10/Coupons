@@ -85,7 +85,7 @@ public class CouponLocations extends Service implements LocationListener {
                             db.addCoordinates(new Coordinates(newLatitude,newLongitude));
                             db.openAndQueryDb();
                             db.listAllRecords();
-                            apiHelper.callApi();
+                           // apiHelper.callApi();
                         }
                     }
                 }
