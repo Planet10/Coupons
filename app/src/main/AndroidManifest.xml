@@ -46,6 +46,10 @@
             android:exported="false" >
         </receiver>
 
+        <activity
+            android:name=".SpringActivity"
+            android:label="@string/title_activity_spring" >
+        </activity>
     </application>
 
 </manifest>
