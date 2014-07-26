@@ -56,7 +56,7 @@ public class SpringActivity extends Activity {
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
                 return restTemplate.getForObject(url, Greeting.class);
             }catch (Exception e){
-                Log.e("SpringActivity", e.getMessage(), e);
+                Log.e("SpringTestActivity", e.getMessage(), e);
             }
             return null;
         }
